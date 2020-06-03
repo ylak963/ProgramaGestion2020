@@ -194,12 +194,10 @@ public class ConsultaProveedores extends Frame implements WindowListener, Action
 			ResultSet rs = stm.executeQuery(sqlSelect);
 			while (rs.next())
 			{
-
 				resultado = resultado + rs.getInt("idProveedor") +
 						"-"+rs.getString("nombreProveedor")+
 						"-"+rs.getInt("telefonoProveedor")+
-						"-"+rs.getString("generoProveedor")+"\n";
-				
+						"-"+rs.getString("generoProveedor")+"\n";				
 			}
 			registros.registrarMovimiento(usuario,sqlSelect);
 		}

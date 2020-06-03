@@ -80,7 +80,7 @@ public class ConsultaReuniones extends Frame implements WindowListener, ActionLi
 			try
 			{
 				//Se crear el OutputStream para el fichero donde queremos dejar el pdf
-				FileOutputStream ficheroPdf = new FileOutputStream("Reunion.pdf");
+				FileOutputStream ficheroPdf = new FileOutputStream("Reuniones.pdf");
 				PdfWriter.getInstance(documento, ficheroPdf).setInitialLeading(22);
 				//Se abre el documento
 				documento.open();
@@ -117,7 +117,7 @@ public class ConsultaReuniones extends Frame implements WindowListener, ActionLi
 				//Abrimos el archivo PDF recién creado
 				try
 				{
-					File path = new File("Reunion.pdf");
+					File path = new File("Reuniones.pdf");
 					Desktop.getDesktop().open(path);
 				}
 				catch(IOException ex)
