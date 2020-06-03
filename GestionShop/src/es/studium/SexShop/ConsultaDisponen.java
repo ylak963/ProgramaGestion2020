@@ -173,6 +173,7 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 			System.out.println("Error 1-" + cnfe.getMessage());
 		}
 		return con;
+		
 	}
 
 	public String consultarDisponen(Connection con)
