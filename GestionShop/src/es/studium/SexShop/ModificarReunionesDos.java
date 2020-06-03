@@ -17,80 +17,55 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ModificarArticulosDos extends Frame implements WindowListener, ActionListener
+public class ModificarReunionesDos extends Frame implements WindowListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	Label lblNombreArticulo = new Label("Nombre:");
-	TextField txtNombreArticulo = new TextField(20);
-	Label lblTamanioArticulo = new Label("Tamaño:");
-	TextField txtTamanioArticulo = new TextField(20);
-	Label lblDescripArticulo = new Label("Descripción:");
-	TextField txtDescripArticulo = new TextField(20);
-	Label lblPrecioArticulo = new Label("Precio:");
-	TextField txtPrecioArticulo = new TextField(20);
-	Label lblIdProveFK = new Label("Proveedor");
-	TextField txtIdProveFK = new TextField(20);
+	Label lblPuntosReunion = new Label("Proveedor:");
+	TextField txtPuntosReunion = new TextField(20);
+	Label lblFechaReunion = new Label("Teléfono:");
+	TextField txtFechaReunion = new TextField(20);
+	
 	
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
-	
+
 	Connection con = null;
-	
-	Statement statement = null;
-	ResultSet rs = null;
-		
+
 	String [] cadena;
 	Dialog dlgMensaje = new Dialog(this,"Mensaje", true);
 	Label mensaje = new Label("");
-	
-	int idArticuloModificar;
-	Registros registro = new Registros();
+
+	int idReunionModificar;
+	Registros registros = new Registros();
 	Login logUsuario = new Login();
-	
-	
-	
-	public ModificarArticulosDos(int idArticuloModificar)
+
+
+
+	public ModificarReunionesDos(int idReunionModificar)
 	{
-		this.idArticuloModificar = idArticuloModificar; 
+		this.idReunionModificar = idReunionModificar; 
 		// Conectar BD
 		Connection con = conectar();
-		cadena= (consultarArticulo(con, idArticuloModificar)).split("-");
-		// cadena[0] = idArticulo
-		// cadena[1] = nombreArticulo
-		// cadena[2] = tamanioArticulo
-		// cadena[3] = descripcionArticulo
-		// cadena[4] = precioArticulo
-		// cadena[5] = idProveedorFK
-		setTitle("Modificar Artículo");
+		cadena= (consultarReunion(con, idReunionModificar)).split("-");
+		setTitle("Modificar Proveedor");
 		setLayout(new FlowLayout());
+
+		add(lblPuntosReunion);
+		txtPuntosReunion.setText(cadena[1]);
+		add(txtPuntosReunion);
+
+		add(lblFechaReunion);
+		txtFechaReunion.setText(cadena[2]);
+		add(txtFechaReunion);
 	
-		add(lblNombreArticulo);
-		txtNombreArticulo.setText(cadena[1]);
-		add(txtNombreArticulo);
-		
-		add(lblTamanioArticulo);
-		txtTamanioArticulo.setText(cadena[2]);
-		add(txtTamanioArticulo);
-		
-		add(lblDescripArticulo);
-		txtDescripArticulo.setText(cadena[3]);
-		add(txtDescripArticulo);
-		
-		add(lblPrecioArticulo);
-		txtPrecioArticulo.setText(cadena[4]);
-		add(txtPrecioArticulo);
-		
-		add(lblIdProveFK);
-		txtIdProveFK.setText(cadena[5]);
-		add(txtIdProveFK);
+
 		btnAceptar.addActionListener(this);
 		btnLimpiar.addActionListener(this);
-		
-		
+
 		add(btnAceptar);
 		add(btnLimpiar);
 		addWindowListener(this);
-		setSize(240,400); 
+		setSize(240,300); 
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -101,46 +76,35 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 	{
 		if(btnLimpiar.equals(arg0.getSource()))
 		{
-			txtNombreArticulo.selectAll();
-			txtNombreArticulo.setText("");
-			txtTamanioArticulo.selectAll();
-			txtTamanioArticulo.setText("");
-			txtDescripArticulo.selectAll();
-			txtDescripArticulo.setText("");
-			txtPrecioArticulo.selectAll();
-			txtPrecioArticulo.setText("");
-			txtIdProveFK.selectAll();
-			txtIdProveFK.setText("");
+			txtPuntosReunion.selectAll();
+			txtPuntosReunion.setText("");
+			txtFechaReunion.selectAll();
+			txtFechaReunion.setText("");
+		
+		
 		}
 		else if(btnAceptar.equals(arg0.getSource()))// btnAceptar
 		{
-			String nombreArticulo=txtNombreArticulo.getText();
-			String tamanioArticulo=txtTamanioArticulo.getText();
-			String descripcionArticulo=txtDescripArticulo.getText();
-			String precioArticulo=txtPrecioArticulo.getText();
-			String idProveedorFK=txtIdProveFK.getText();	
+			String puntosReunion=txtPuntosReunion.getText();
+			String[] fechaAmericana = txtFechaReunion.getText().split("/");
+			
 			
 			String usuario = logUsuario.txtUsuario.getText();
-			
 			Connection con = conectar();
-			cadena= (consultarArticulo(con, idArticuloModificar)).split("-");
+			cadena= (consultarReunion(con, idReunionModificar)).split("-");
 			// Hacer UPDATE
-			String sentencia = "UPDATE articulos SET nombreArticulo ='"+nombreArticulo+
-					"', tamanioArticulo = "+tamanioArticulo+
-					", descripcionArticulo = '"+descripcionArticulo+
-					"',precioArticulo = "+precioArticulo+
-					"',idProveedorFK = "+idProveedorFK+
-					" WHERE idArticulo = "+idArticuloModificar;
-			
-			registro.registrarMovimiento(usuario,sentencia);
-			
+			String sentencia = "UPDATE reuniones SET puntosReunion ="+puntosReunion+
+					", fechaReunion='"+fechaAmericana[2]+"-"+fechaAmericana[1]+"-"+fechaAmericana[0]+
+					"' WHERE idReunion = "+idReunionModificar;
+			registros.registrarMovimiento(usuario,sentencia);
+
 			// Mostrar cuadro de diálog
 			if((modificarArticulo(con, sentencia))==0)
 			{
 				// Todo bien
-				mensaje.setText("Modificación del artículo correcta");
-				dlgMensaje.setTitle("Modificar Artículo");
-				dlgMensaje.setSize(220,120);
+				mensaje.setText("Modificación de la reunión correcta");
+				dlgMensaje.setTitle("Modificar Reunión");
+				dlgMensaje.setSize(250,120);
 				dlgMensaje.setLayout(new FlowLayout());
 				dlgMensaje.addWindowListener(this);
 				dlgMensaje.add(mensaje);
@@ -150,9 +114,9 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 			else
 			{
 				// Error
-				mensaje.setText("Error en la Modificación del Artículo");
-				dlgMensaje.setTitle("Modificar Artículo");
-				dlgMensaje.setSize(180,120);
+				mensaje.setText("Error en la Modificación de la reunión");
+				dlgMensaje.setTitle("Modificar Reunión");
+				dlgMensaje.setSize(250,120);
 				dlgMensaje.setLayout(new FlowLayout());
 				dlgMensaje.addWindowListener(this);
 				dlgMensaje.add(mensaje);
@@ -162,7 +126,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 			// Desconectar
 			desconectar(con);
 		}
-		
+
 	}
 
 	@Override
@@ -184,7 +148,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 	public void windowDeiconified(WindowEvent arg0){}
 	public void windowIconified(WindowEvent arg0){}
 
-	
+
 	public void windowOpened(WindowEvent arg0){}
 	public Connection conectar()
 	{
@@ -213,27 +177,26 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 		}
 		return con;
 	}
-	
-	public String consultarArticulo(Connection c, int idArticulo)
+
+	public String consultarReunion(Connection c, int idReunion)
 	{
 		String resultado = "";
+		String [] fechaAmericana;
 		try
 		{
-			String sentencia = "SELECT * FROM articulos where idArticulo="+idArticulo;
+			String sentencia = "SELECT * FROM reuniones where idReunion="+idReunion;
 			//Crear una sentencia
 			Statement  stm = c.createStatement();
 			//Crear un objeto ResultSet para guardar lo obtenido
 			//y ejecutar la sentencia SQL
 			ResultSet rs = stm.executeQuery(sentencia);
 			rs.next();
-			
-				resultado = rs.getInt("idArticulo") + "-" +
-						rs.getString("nombreArticulo") + "-" +
-						rs.getInt("tamanioArticulo") + "-" +
-						rs.getString("descripcionArticulo")+ "-"+
-						rs.getDouble("precioArticulo")+"-"+
-						rs.getInt("idProveedorFK");
-			
+			fechaAmericana=(rs.getString("fechaReunion")).split("-");
+
+			resultado = rs.getInt("idReunion") + "-" +
+					rs.getInt("puntosReunion") + "-" +
+					fechaAmericana[2]+"/"+fechaAmericana[1]+"/"+fechaAmericana[0]+"#";
+
 		}
 		catch (SQLException sqle)
 		{
@@ -248,7 +211,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 		try
 		{
 			//Crear una sentencia
-			 stm =c.createStatement();
+			stm =c.createStatement();
 			// Ejecutar la sentencia SQL
 			if((stm.executeUpdate(sentencia))==1)
 			{
@@ -265,8 +228,8 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 		}
 		return (resultado);
 	}
-	
-	
+
+
 	public void desconectar(Connection con)
 	{
 		try

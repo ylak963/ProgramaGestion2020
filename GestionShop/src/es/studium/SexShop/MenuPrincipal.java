@@ -134,7 +134,7 @@ public class MenuPrincipal extends Frame implements WindowListener, ActionListen
 		}
 		else if(objetoPulsado.equals(mniModificarArticulos)) 
 		{
-			new ModificarArticulosDos();
+			new ModificarArticulos();
 		}
 		//Eventos de Proveedores.
 		else if(objetoPulsado.equals(mniAltaProveedores)) 

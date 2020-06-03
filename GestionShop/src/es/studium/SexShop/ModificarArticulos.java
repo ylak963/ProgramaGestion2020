@@ -2,12 +2,8 @@ package es.studium.SexShop;
 
 import java.awt.Button;
 import java.awt.Choice;
-import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
-import java.awt.Label;
-import java.awt.TextField;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -18,67 +14,47 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+
 public class ModificarArticulos extends Frame implements WindowListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	Label lblArticulo = new Label("Articulo a modificar:");
 	Choice choArticulo = new Choice();
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
-	Button btnEditar = new Button("Editar");
 
-	Toolkit t = Toolkit.getDefaultToolkit();
-	Dialog dlgBajaArticulos = new Dialog (this,"Mensaje",true);
-	Label mensaje = new Label("");
-
-	Registros registros = new Registros();
-	Login logUsuario = new Login();
+	Connection con = null;
+	String [] cadena ;
+	int idArticuloModificar = 0;
 
 	ModificarArticulos()
 	{
-		setTitle("Modificar articulos");
+		setTitle("Modificar Articulo");
 		setLayout(new FlowLayout());
-		// Montar el Choice
-		choArticulo.add("Seleccionar uno... ");
-
-		// Conectar a la base de datos
+		// Rellenar el Choice
+		choArticulo.add("Seleccionar un artículo...");
+		// Conectar BD
 		Connection con = conectar();
-
 		// Sacar los datos de la tabla articulos
 		// Rellenar el Choice
-		String sqlSelect = "SELECT * FROM articulos";
-		try {
-			// CREAR UN STATEMENT PARA UNA CONSULTA SELECT
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery(sqlSelect);
-			while (rs.next()) 
-			{
-				choArticulo.add(rs.getInt("idArticulo")+
-						"-"+rs.getString("nombreArticulo")/*+
-						"-"+rs.getString("descripcionArticulo")+
-						"-"+rs.getString("precioArticulo")*/);
-			}
-			rs.close();
-			stmt.close();
-		} 
-		catch (SQLException ex) 
+		cadena=(consultarArticulosChoice(con)).split("#"); //
+		for(int i=0; i<cadena.length; i++)
 		{
-			System.out.println("ERROR:al consultar");
-			ex.printStackTrace();
+			choArticulo.add(cadena[i]);
 		}
+		
 		// Cerrar la conexión
-		desconectar(con);
-
+		//desconectar(con);		
 		add(choArticulo);
 		btnAceptar.addActionListener(this);
 		btnLimpiar.addActionListener(this);
 		add(btnAceptar);
-		add(btnLimpiar);		
+		add(btnLimpiar);
 		addWindowListener(this);
-		setSize(280,300);
+		setSize(400,300);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
+
 	}
 
 	public void actionPerformed(ActionEvent e)
@@ -90,95 +66,35 @@ public class ModificarArticulos extends Frame implements WindowListener, ActionL
 		}
 		else if(objetoPulsado.equals(btnAceptar))
 		{
-			// Crear un Frame igual que el ALTA
-			Label lblNombreArticulo = new Label("Nombre:");
-			TextField txtNombreArticulo = new TextField(20);
-			Label lblTamanioArticulo = new Label("Tamaño:");
-			TextField txtTamanioArticulo = new TextField(20);
-			Label lblDescripArticulo = new Label("Descripción:");
-			TextField txtDescripArticulo = new TextField(20);
-			Label lblPrecioArticulo = new Label("Precio:");
-			TextField txtPrecioArticulo = new TextField(20);
-			Label lblidProvFK = new Label("IDproveedor:");
-			TextField txtidProvFK = new TextField(20);
-			//Button btnAceptar = new Button("Aceptar");
-			//Button btnLimpiar = new Button("Limpiar");
-			Button btnEditar = new Button("Editar");
-			//Button btnCancelar = new Button("Cancelar");
-
-			setTitle("Editar");
-			setLayout(new FlowLayout());
-			add(lblNombreArticulo);
-			add(txtNombreArticulo);
-			add(lblTamanioArticulo);
-			add(txtTamanioArticulo);
-			add(lblDescripArticulo);
-			add(txtDescripArticulo);
-			add(lblPrecioArticulo);
-			add(txtPrecioArticulo);
-			add(lblidProvFK);
-			add(txtidProvFK);
-			
-			btnAceptar.addActionListener(this);
-			btnLimpiar.addActionListener(this);
-			btnEditar.addActionListener(this);
-			add(btnAceptar);
-			add(btnLimpiar);
-			add(btnEditar);
-			//btnCancelar.addActionListener(this);
-			addWindowListener(this);
-
-			setSize(240,400);
-
-			setResizable(true);
-			setLocationRelativeTo(null);
-			setVisible(true);
-			// Pero relleno-->
-			txtNombreArticulo.getText();
-			txtTamanioArticulo.getText();
-			txtDescripArticulo.getText();
-			txtPrecioArticulo.getText();
-			// Conectar a la base de datos
-			Connection con = conectar();
-			// Seleccionar los datos del elemento
-			String sql = "SELECT * FROM articulos"; 
-			try
+			if(choArticulo.getSelectedItem().equals("Seleccionar un articulo..."))
 			{
-				Statement sta = con.createStatement();
-
-				ResultSet rs = sta.executeQuery(sql);
-				rs.next();
-				//Poner en los TextField los valores obtenidos
-				txtNombreArticulo.setText(rs.getString("nombreArticulo"));
-				txtTamanioArticulo.setText(Integer.toString(rs.getInt("tamanioArticulo")));
-				txtDescripArticulo.setText(rs.getString("descripcionArticulo"));
-				txtPrecioArticulo.setText(Double.toString((double) rs.getDouble("precioArticulo")));
-				txtTamanioArticulo.setText(Integer.toString(rs.getInt("tamanioArticulo")));
-				txtidProvFK.setText(Integer.toString(rs.getInt("idProveedorFK")));
-				
-				// seleccionado
-				// Mostrarlos
+				// No ocurriría nada
 			}
-			catch(SQLException er)
+			else
 			{
-				System.out.println("Error en la sentencia SQL");
+				// Coger el elemento seleccionado
+				String [] tabla = choArticulo.getSelectedItem().split("-");
+				// El idArticulo que quiero editar está en tabla[0]
+				idArticuloModificar = Integer.parseInt(tabla[0]);
+				new ModificarArticulosDos(idArticuloModificar); 
 			}
+
+
 		}
-
 	}
 
 	public void windowActivated(WindowEvent e){}
 	public void windowClosed(WindowEvent e){}
 	public void windowClosing(WindowEvent e)
-	{		
+	{	
 		setVisible(false);
+		
 	}
 	public void windowDeactivated(WindowEvent e){}
 	public void windowDeiconified(WindowEvent e){}
 	public void windowIconified(WindowEvent e){}
 	public void windowOpened(WindowEvent e){}
 
-	
 	public Connection conectar()
 	{
 		String driver = "com.mysql.jdbc.Driver";
@@ -208,26 +124,36 @@ public class ModificarArticulos extends Frame implements WindowListener, ActionL
 		return con;
 	}
 
-	public int borrar(Connection con, int idArticulo)
+	
+	public String consultarArticulosChoice(Connection c)
 	{
-		int respuesta = 0;
-		String sql = "DELETE FROM articulos WHERE idArticulo = " + idArticulo;
-		System.out.println(sql);
-		try 
+		String resultado = "";
+		try
 		{
-			// Creamos un STATEMENT para una consulta SQL INSERT.
-			Statement sta = con.createStatement();
-			sta.executeUpdate(sql);
-			sta.close();
-		} 
-		catch (SQLException ex) 
-		{
-			System.out.println("ERROR:al hacer un Delete");
-			ex.printStackTrace();
-			respuesta = 1;
+			String sentencia = "SELECT * FROM articulos";
+			//Crear una sentencia
+			Statement stmt = c.createStatement();
+			//Crear un objeto ResultSet para guardar lo obtenido
+			//y ejecutar la sentencia SQL
+			ResultSet rs = stmt.executeQuery(sentencia);
+			while (rs.next())
+			{
+				choArticulo.add/*resultado = */(rs.getInt("idArticulo")+
+						"-"+rs.getString("nombreArticulo"));
+				/*+
+								", "+rs.getString("tamanioArticulo")+
+								","+rs.getString("descripcionArticulo")+
+								","+rs.getString("precioArticulo")+
+								","+rs.getString("idProveedorFK"));*/
+			}
 		}
-		return respuesta;
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2-"+sqle.getMessage());
+		}
+		return (resultado);
 	}
+
 
 	public void desconectar(Connection con)
 	{
