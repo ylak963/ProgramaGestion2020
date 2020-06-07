@@ -31,6 +31,11 @@ public class Login extends WindowAdapter implements ActionListener
 	Label lblPass = new Label("Contraseña");
 	
 	TextField txtUsuario = new TextField("admin", 20);
+	public TextField getTxtUsuario()
+	{
+		return txtUsuario;
+	}
+
 	TextField txtPass = new TextField("admin", 20);
 	
 	Button btnAcceder = new Button("Acceder");
@@ -50,6 +55,7 @@ public class Login extends WindowAdapter implements ActionListener
 	
 	public Login()
 	{
+		
 		//Constructor del Layout Login
 		login.setLayout(new FlowLayout());
 		login.setSize(290, 125);
@@ -120,7 +126,7 @@ public class Login extends WindowAdapter implements ActionListener
 			sentencia += " AND claveUsuario = '"+cadenaEncriptada+"'";
 			
 
-			System.out.println(sentencia);
+			System.out.println(sentencia);//Quitar
 						
 			try
 			{
@@ -184,7 +190,7 @@ public class Login extends WindowAdapter implements ActionListener
 				System.out.println("Error 2-"+sqle.getMessage());
 			}
 
-			finally
+			/*finally
 			{
 				try
 				{
@@ -197,7 +203,7 @@ public class Login extends WindowAdapter implements ActionListener
 				{
 					System.out.println("Error 3-"+e.getMessage());
 				}
-			}
+			}*/
 			
 		}
 		else
@@ -229,6 +235,3 @@ public class Login extends WindowAdapter implements ActionListener
 		return sb.toString();
 	}
 }
-
-
-

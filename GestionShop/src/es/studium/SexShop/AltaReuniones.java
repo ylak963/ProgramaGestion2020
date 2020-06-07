@@ -188,5 +188,4 @@ public class AltaReuniones extends Frame implements WindowListener, ActionListen
 		}
 		catch(Exception e) {}
 	}
-
 }

@@ -6,7 +6,7 @@ import java.awt.Dialog;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
-import java.awt.TextField;
+//import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -22,24 +22,20 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 	private static final long serialVersionUID = 1L;
 	
 	Label lblReunionFK = new Label("Referencia reunión:");
-
 	Choice choReunion = new Choice();
-	//TextField txtReunionFK = new TextField(20);
-	
+		
 	Label lblArticuloFK = new Label("Referencia artículo:");
-	TextField txtArticuloFK = new TextField(20); //Id de referencia al artículos. El empleado tendría una lista con los artículos y su id correspondiente
-	
+	Choice choArticulo = new Choice();
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
 
-	Dialog dlgAltaProveedores = new Dialog (this,"Mensaje",true);
+	Dialog dlg = new Dialog (this,"Mensaje",true);
 	Label mensaje = new Label("");
 	
 	String cadena [];
 	Registros registros = new Registros();
 	Login logUsuario = new Login();
-	
-	AltaDisponen()
+		
 	{
 		setTitle("Alta de Disponen");
 		setLayout(new FlowLayout());
@@ -55,20 +51,27 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 		}
 		add(choReunion);
 		
+		
 		add(lblArticuloFK);
-		add(txtArticuloFK);
+		choArticulo.add("Seleccionar un artículo...");
+		
+		cadena = (consultarArticulosChoice(con)).split("#");
+		for(int i=0; i<cadena.length; i++)
+		{
+			choArticulo.add(cadena[i]);
+		}
+		add(choArticulo);
 		
 		add(btnAceptar);
 		add(btnLimpiar);
 		btnAceptar.addActionListener(this);
 		btnLimpiar.addActionListener(this);
 		addWindowListener(this);
-		setSize(320,160);
+		setSize(280,200);
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
 	
 
 	public void actionPerformed(ActionEvent e)
@@ -77,12 +80,8 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 		if(objetoPulsado.equals(btnLimpiar))
 		{
 			choReunion.select(0);
-			
-			txtArticuloFK.selectAll();
-			txtArticuloFK.setText("");
-			txtArticuloFK.requestFocus();
-			
-			
+			choArticulo.select(0);
+						
 		}
 		else if(objetoPulsado.equals(btnAceptar))
 		{
@@ -90,31 +89,31 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 			Connection con = conectar();
 			
 			// Proceder con el INSERT
-			int respuesta = insertar(con, "disponen", choReunion.getSelectedItem(),txtArticuloFK.getText());
+			int respuesta = insertarDisponen(con, "disponen", choReunion.getSelectedItem(),choArticulo.getSelectedItem()/*txtArticuloFK.getText()*/);
 			// Mostramos resultado
 			if(respuesta == 0)
 			{
 				mensaje.setText("Alta de disponen correcta");
-				dlgAltaProveedores.setTitle("Alta Disponen");
-				dlgAltaProveedores.setSize(190,120);
-				dlgAltaProveedores.setLayout(new FlowLayout());
-				dlgAltaProveedores.addWindowListener(this);
-				dlgAltaProveedores.add(mensaje);
-				dlgAltaProveedores.setLocationRelativeTo(null);
-				dlgAltaProveedores.setVisible(true);
+				dlg.setTitle("Alta Disponen");
+				dlg.setSize(190,120);
+				dlg.setLayout(new FlowLayout());
+				dlg.addWindowListener(this);
+				dlg.add(mensaje);
+				dlg.setLocationRelativeTo(null);
+				dlg.setVisible(true);
 				System.out.println("Alta de disponen correcta");
 				
 			}
 			else
 			{
 				mensaje.setText("Error en Alta de Disponen");
-				dlgAltaProveedores.setTitle("Alta Disponen");
-				dlgAltaProveedores.setSize(190,120);
-				dlgAltaProveedores.setLayout(new FlowLayout());
-				dlgAltaProveedores.addWindowListener(this);
-				dlgAltaProveedores.add(mensaje);
-				dlgAltaProveedores.setLocationRelativeTo(null);
-				dlgAltaProveedores.setVisible(true);
+				dlg.setTitle("Alta Disponen");
+				dlg.setSize(190,120);
+				dlg.setLayout(new FlowLayout());
+				dlg.addWindowListener(this);
+				dlg.add(mensaje);
+				dlg.setLocationRelativeTo(null);
+				dlg.setVisible(true);
 				
 				System.out.println("Error en Alta de disponen");
 			}
@@ -147,7 +146,7 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 			// Cargar los controladores para el acceso a la BD
 			Class.forName(driver);
 			
-			// Establecer la conexión con la BD empresa
+			// Establecer la conexión con la BD 
 			con = DriverManager.getConnection(url, user, password);
 			if (con != null) 
 			{
@@ -166,23 +165,24 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 		return con;
 	}
 	
-	public int insertar(Connection con, String disponen, String idReunFK, String idArtiFK) 
+	public int insertarDisponen(Connection con, String disponen, String idReunionFK, String idArticuloFK) 
 	{
 		int respuesta = 0;
 		String usuario = logUsuario.txtUsuario.getText();
 		try 
 		{
-			idReunFK = choReunion.getSelectedItem();
-			idArtiFK = txtArticuloFK.getText();
+			idReunionFK = choReunion.getSelectedItem();
+			idArticuloFK = choArticulo.getSelectedItem();
+			//idArticuloFK = txtArticuloFK.getText();
 			// Creamos un STATEMENT para una consulta SQL INSERT.
 			Statement sta = con.createStatement();
-			String cadenaSQL = "INSERT INTO " + disponen + " VALUES (idReunFK,idArtiFK);";
+			String cadenaSQL = "INSERT INTO " + disponen + " VALUES (idReunionFK, idArticuloFK);";
 			
-			System.out.println(cadenaSQL);
-			
+			//System.out.println(cadenaSQL);
 			//Registros de movimientos de usuarios
 			registros.registrarMovimiento(usuario,cadenaSQL);
 			
+			logUsuario.login.setVisible(false);
 			sta.executeUpdate(cadenaSQL);
 			sta.close();
 		} 
@@ -197,7 +197,7 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 	public String consultarReunionesChoice(Connection c)
 	{
 		String resultado = "";
-		String [] fechaEuropea;
+		//String [] fechaEuropea;
 		try
 		{
 			String sentencia = "SELECT * FROM reuniones";
@@ -208,9 +208,32 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 			ResultSet rs = stm.executeQuery(sentencia);
 			while (rs.next())
 			{
-				fechaEuropea = (rs.getString("fechaReunion")).split("-");
-				resultado = resultado + rs.getInt("idReunion") + "-" +
-						fechaEuropea[2]+"/"+fechaEuropea[1]+"/"+fechaEuropea[0]+"#";
+				//fechaEuropea = (rs.getString("fechaReunion")).split("-");
+				resultado = resultado + rs.getInt("idReunion") /*+ "-" +
+						fechaEuropea[2]+"/"+fechaEuropea[1]+"/"+fechaEuropea[0]+*/+"#";
+			}
+		}
+		catch (SQLException sqle)
+		{
+			System.out.println("Error 2-"+sqle.getMessage());
+		}
+		return (resultado);
+	}
+	public String consultarArticulosChoice(Connection c)
+	{
+		String resultado = "";
+		try
+		{
+			String sentencia = "SELECT * FROM articulos";
+			//Crear una sentencia
+			Statement  stm = c.createStatement();
+			//Crear un objeto ResultSet para guardar lo obtenido
+			//y ejecutar la sentencia SQL
+			ResultSet rs = stm.executeQuery(sentencia);
+			while (rs.next())
+			{
+				resultado = resultado + rs.getInt("idArticulo")+"#";
+				//resultado = resultado + rs.getString("nombreArticulo")+"#";
 			}
 		}
 		catch (SQLException sqle)

@@ -58,7 +58,7 @@ public class ConsultaProveedores extends Frame implements WindowListener, Action
 		add(btnVolver);
 
 		addWindowListener(this);
-		setSize(300,300);
+		setSize(300,260);
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -84,7 +84,7 @@ public class ConsultaProveedores extends Frame implements WindowListener, Action
 				PdfWriter.getInstance(documento, ficheroPdf).setInitialLeading(22);
 				//Se abre el documento
 				documento.open();
-				Paragraph titulo = new Paragraph("Informe de Proveedores",FontFactory.getFont("arial",	22,Font.ITALIC,BaseColor.GRAY));
+				Paragraph titulo = new Paragraph("Informe de Proveedores",FontFactory.getFont("arial",22,Font.ITALIC,BaseColor.GRAY));
 				titulo.setAlignment(Element.ALIGN_CENTER);
 				documento.add(titulo);
 				//Sacar los datos
@@ -216,5 +216,3 @@ public class ConsultaProveedores extends Frame implements WindowListener, Action
 		catch(Exception e) {}
 	}
 }
-
-

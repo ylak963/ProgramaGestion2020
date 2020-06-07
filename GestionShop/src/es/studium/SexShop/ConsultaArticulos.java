@@ -35,7 +35,7 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 	Button btnPdf = new Button("Exportar a PDF");
 	Registros registros = new Registros();
 	Login logUsuario = new Login();
-
+	
 	ConsultaArticulos()
 	{
 		setTitle("Consulta de articulos");
@@ -72,6 +72,8 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 		if(objetoPulsado.equals(btnVolver))
 		{
 			setVisible(false);
+			
+			
 		}
 
 		else if(objetoPulsadoPdf.equals(btnPdf))
@@ -84,20 +86,21 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 				PdfWriter.getInstance(documento, ficheroPdf).setInitialLeading(22);
 				//Se abre el documento
 				documento.open();
-				Paragraph titulo = new Paragraph("Informe de Artículos",FontFactory.getFont("arial",	22,Font.ITALIC,BaseColor.GRAY));
+				Paragraph titulo = new Paragraph("Informe de Artículos",FontFactory.getFont("arial",22,Font.ITALIC,BaseColor.GRAY));
 				titulo.setAlignment(Element.ALIGN_CENTER);
 				documento.add(titulo);
 				//Sacar los datos
 				Connection con = conectar();
 				String [] cadena= consultarArticulos(con).split("\n");
 				desconectar(con);
-				PdfPTable tabla = new PdfPTable(5); // Se indica el número de columnas
+				PdfPTable tabla = new PdfPTable(6); // Se indica el número de columnas
 				tabla.setSpacingBefore(5); // Espaciado ANTES de la tabla
 				tabla.addCell("Identificador Artículo");
 				tabla.addCell("Nombre Artículo");
 				tabla.addCell("Tamaño");
 				tabla.addCell("Descripción");
 				tabla.addCell("Precio");
+				tabla.addCell("Proveedor");
 				//En cada posición de cadena tenemos un registro completo
 				//Cadena [0]="1-Articulo-Tamaño-Descripción-Precio"
 				String [] subCadena;
@@ -107,11 +110,12 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 				//SubCadena[2]=Tamaño
 				//SubCadena[3]=Descripción
 				//SubCadena[4]=Precio
+				//SubCadena[5]=nombreProveedor
 
 				for(int i=0; i<cadena.length; i++)
 				{
 					subCadena = cadena[i].split("-");
-					for(int j=0; j<5;j++)
+					for(int j=0; j<6;j++)
 					{
 						tabla.addCell(subCadena[j]);
 					}
@@ -179,7 +183,6 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 		}
 		return con;
 	}
-
 	public String consultarArticulos(Connection con)
 	{
 		String resultado = "";
@@ -187,7 +190,8 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 
 		try
 		{
-			String sqlSelect = "SELECT * FROM articulos";
+			String sqlSelect = "SELECT idArticulo,nombreArticulo,tamanioArticulo,"
+					+ "descripcionArticulo,precioArticulo,nombreProveedor FROM articulos,proveedores where idProveedor=idProveedorFK ORDER BY idArticulo";
 			//Crear una sentencia
 			Statement stm = con.createStatement();
 			//Crear un objeto ResultSet para guardar lo obtenido
@@ -200,8 +204,8 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 						"-"+rs.getString("nombreArticulo")+
 						"-"+rs.getInt("tamanioArticulo")+
 						"-"+rs.getString("descripcionArticulo")+
-						"-"+rs.getDouble("precioArticulo")/*+
-						", "+rs.getString("idProveedorFK")*/+"\n";
+						"-"+rs.getDouble("precioArticulo")+
+						"-"+rs.getString("nombreProveedor")+"\n";
 
 			}
 			registros.registrarMovimiento(usuario,sqlSelect);

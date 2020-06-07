@@ -19,15 +19,14 @@ import java.sql.Statement;
 public class BajaDisponen  extends Frame implements WindowListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	Label lblArticulo = new Label("Proveedor a borrar:");
+	Label lblArticulo = new Label("Disponen a borrar:");
 	Choice choDisponen = new Choice();
 	Button btnEliminar = new Button("Eliminar");
 	Button btnLimpiar = new Button("Limpiar");
 	Dialog seguro;
 	Button btnSi;
 	Button btnNo;
-	
-	Dialog dlgBajaProveedores = new Dialog (this,"Mensaje",true);
+	Dialog dlgBajaDisponen = new Dialog (this,"Mensaje",true);
 	Label mensaje = new Label("");
 
 	Registros registros = new Registros();
@@ -55,8 +54,8 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 			ResultSet rs = stmt.executeQuery(sqlSelect);
 			while (rs.next()) 
 			{
-				choDisponen.add(rs.getInt("idProveedor")+
-						"-"+rs.getString("nombreProveedor"));
+				choDisponen.add(rs.getInt("idReunionFK")+
+						"-"+rs.getInt("idArticuloFK"));
 						/*+
 						", "+rs.getString("telefonoProveedor")+
 						","+rs.getString("generoProveedor"));*/
@@ -66,7 +65,7 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 		} 
 		catch (SQLException ex) 
 		{
-			System.out.println("ERROR: En la baja");
+			System.out.println("Error en la baja");
 			ex.printStackTrace();
 		}
 		// Cerrar la conexión
@@ -100,7 +99,7 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 			btnNo = new Button("No");
 			Label lblEtiqueta = new Label("¿Está seguro de eliminar?");
 			seguro.setLayout(new FlowLayout());
-			seguro.setSize(120,100);
+			seguro.setSize(170,100);
 			btnSi.addActionListener(this);
 			btnNo.addActionListener(this);
 			seguro.add(lblEtiqueta);
@@ -125,33 +124,33 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 			// Mostramos resultado
 			if(respuesta == 0)
 			{
-				mensaje.setText("Baja de proveedor correcta");
-				dlgBajaProveedores.setTitle("Baja Proveedores");
-				dlgBajaProveedores.setSize(190,120);
-				dlgBajaProveedores.setLayout(new FlowLayout());
-				dlgBajaProveedores.addWindowListener(this);
-				dlgBajaProveedores.add(mensaje);
-				dlgBajaProveedores.setLocationRelativeTo(null);
-				dlgBajaProveedores.setVisible(true);
-				System.out.println("Borrado del proveedor correcto");
+				mensaje.setText("Baja de disponen correcta");
+				dlgBajaDisponen.setTitle("Baja Disponen");
+				dlgBajaDisponen.setSize(190,120);
+				dlgBajaDisponen.setLayout(new FlowLayout());
+				dlgBajaDisponen.addWindowListener(this);
+				dlgBajaDisponen.add(mensaje);
+				dlgBajaDisponen.setLocationRelativeTo(null);
+				dlgBajaDisponen.setVisible(true);
+				System.out.println("Borrado de disponen correcto");
 			}
 			else
 			{
-				mensaje.setText("Error en la baja de proveedores");
-				dlgBajaProveedores.setTitle("Baja Proveedores");
-				dlgBajaProveedores.setSize(190,120);
-				dlgBajaProveedores.setLayout(new FlowLayout());
-				dlgBajaProveedores.addWindowListener(this);
-				dlgBajaProveedores.add(mensaje);
-				dlgBajaProveedores.setLocationRelativeTo(null);
-				dlgBajaProveedores.setVisible(true);
-				System.out.println("Error en borrado del proveedor");
+				mensaje.setText("Error en la baja de disponen");
+				dlgBajaDisponen.setTitle("Baja Disponen");
+				dlgBajaDisponen.setSize(190,120);
+				dlgBajaDisponen.setLayout(new FlowLayout());
+				dlgBajaDisponen.addWindowListener(this);
+				dlgBajaDisponen.add(mensaje);
+				dlgBajaDisponen.setLocationRelativeTo(null);
+				dlgBajaDisponen.setVisible(true);
+				System.out.println("Error en borrado de disponen");
 			}
 			
 			// Actualizar el Choice
 			choDisponen.removeAll();
 			choDisponen.add("Seleccionar uno...");
-			String sqlSelect = "SELECT * FROM proveedores";
+			String sqlSelect = "SELECT * FROM disponen";
 			try 
 			{
 				// CREAR UN STATEMENT PARA UNA CONSULTA SELECT
@@ -159,11 +158,9 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 				ResultSet rs = stmt.executeQuery(sqlSelect);
 				while (rs.next()) 
 				{
-					choDisponen.add(rs.getInt("idProveedor")+
-							"-"+rs.getString("nombreProveedor"));
-							/*+
-							", "+rs.getString("telefonoProveedor")+
-							","+rs.getString("generoProveedor"));*/
+					choDisponen.add(rs.getInt("idReunionFK")+
+							"-"+rs.getInt("idArticuloFK"));
+							
 				}
 				rs.close();
 				stmt.close();
@@ -226,10 +223,10 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 		}
 		return con;
 	}
-	public int borrar(Connection con, int idProveedor)
+	public int borrar(Connection con, int idReunionFK)
 	{
 		int respuesta = 0;
-		String sql = "DELETE FROM proveedores WHERE idProveedor = " + idProveedor;
+		String sql = "DELETE FROM disponen WHERE idReunionFK = " + idReunionFK;
 		String usuario = logUsuario.txtUsuario.getText();
 		System.out.println(sql);
 		try 
@@ -244,7 +241,7 @@ public class BajaDisponen  extends Frame implements WindowListener, ActionListen
 		} 
 		catch (SQLException ex) 
 		{
-			System.out.println("ERROR:al hacer un Delete");
+			System.out.println("ERROR:al hacer un borrado");
 			ex.printStackTrace();
 			respuesta = 1;
 		}

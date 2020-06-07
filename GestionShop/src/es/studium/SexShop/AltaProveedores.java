@@ -53,7 +53,6 @@ public class AltaProveedores extends Frame implements WindowListener, ActionList
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
-
 	public void actionPerformed(ActionEvent e)
 	{
 		Object objetoPulsado = e.getSource();
@@ -192,5 +191,4 @@ public class AltaProveedores extends Frame implements WindowListener, ActionList
 		}
 		catch(Exception e) {}
 	}
-
 }

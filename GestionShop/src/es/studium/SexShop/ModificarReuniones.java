@@ -54,7 +54,6 @@ public class ModificarReuniones extends Frame implements WindowListener, ActionL
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setVisible(true);
-
 	}
 
 	public void actionPerformed(ActionEvent e)

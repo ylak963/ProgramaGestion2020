@@ -186,16 +186,6 @@ public class BajaArticulos extends Frame implements WindowListener, ActionListen
 	public void windowClosing(WindowEvent e)
 	{
 		setVisible(false);
-		dispose();
-		/*
-		if(this.isActive())
-		{
-			setVisible(false);
-		}
-		else
-		{
-			seguro.setVisible(false);
-		}*/
 	}
 
 	public void windowDeactivated(WindowEvent e){}
@@ -249,6 +239,7 @@ public class BajaArticulos extends Frame implements WindowListener, ActionListen
 		{
 			System.out.println("ERROR:al hacer un Delete");
 			ex.printStackTrace();
+			//Dialog set.Visible(true);
 			respuesta = 1;
 		}
 		return respuesta;
@@ -259,8 +250,6 @@ public class BajaArticulos extends Frame implements WindowListener, ActionListen
 		{
 			con.close();
 		}
-		catch(Exception e) {}
+		catch(Exception e){}
 	}
-
-
 }

@@ -39,8 +39,7 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 	TextField txtDescripArticulo = new TextField(20);
 	Label lblPrecioArticulo = new Label("Precio:");
 	TextField txtPrecioArticulo = new TextField(20);
-	
-	
+		
 	Label lblProveedor = new Label("Proveedor");
 	Choice choidProvFK = new Choice();
 	String[] cadena;
@@ -53,11 +52,13 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 	Label mensaje = new Label("");
 	Registros registros = new Registros();
 	Login logUsuario = new Login();
+	Login loginn = new Login();
 	
 	
 	//Constructor donde se añaden los componentes y los listener
 	AltaArticulos()
 	{
+		
 		setTitle("Alta de Artículos");
 		setLayout(new FlowLayout());
 		add(lblNombreArticulo);
@@ -96,6 +97,8 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
+		
+		
 	}
 
 	//Eventos 
@@ -177,15 +180,12 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 			}
 			else
 			{
-				System.out.println("Error en Alta de artículo");
+				System.out.println("Error en Alta de artículo");//
 			}
 			// Desconectar de la base
 			desconectar(con);
 
 		}
-
-
-
 		else  if(objetoPulsado.equals(btnLimpiar))
 		{
 			txtNombreArticulo.selectAll();
@@ -213,6 +213,8 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 	{
 		//Solo cerramos esta ventana
 		setVisible(false);
+		//Cerramos ventana de login
+		
 	}
 	public void windowDeactivated(WindowEvent e){}
 	public void windowDeiconified(WindowEvent e){}
@@ -263,13 +265,14 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 			String cadenaSQL = "INSERT INTO " + articulos  
 					+" VALUES (null, '" + nombreArticulo + "', "
 					+ tamanioArticulo + ", "
-					+ "'"+descripcionArticulo + "'"+ ", "
+					+ "'"+descripcionArticulo + "'"+ ", "	
 					+ precioArticulo + ","  
 					+ choidProvFK +");";
 
 			System.out.println(cadenaSQL);
 			//Registros de movimientos de usuarios
 			registros.registrarMovimiento(usuario,cadenaSQL);
+			logUsuario.login.setVisible(false);
 			sta.executeUpdate(cadenaSQL);
 			sta.close();
 		} 
@@ -280,6 +283,7 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 			respuesta = 1;
 		}
 		return respuesta;
+		
 	}
 	
 	public String consultarProveedoresChoice(Connection c)
@@ -302,8 +306,8 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 			}
 			//Registros de movimientos de usuarios
 			registros.registrarMovimiento(usuario,sentencia);
-			
-						
+			logUsuario.login.setVisible(false);
+									
 		}
 		catch (SQLException sqle)
 		{

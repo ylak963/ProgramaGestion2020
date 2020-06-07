@@ -26,7 +26,7 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 	String [] cadena ;
 	int idProveedorModificar = 0;
 
-	ModificarProveedores()
+	public ModificarProveedores()
 	{
 		setTitle("Modificar Proveedor");
 		setLayout(new FlowLayout());
@@ -78,8 +78,6 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 				idProveedorModificar = Integer.parseInt(tabla[0]);
 				new ModificarProveedoresDos(idProveedorModificar); 
 			}
-
-
 		}
 	}
 
@@ -148,8 +146,7 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 		}
 		return (resultado);
 	}
-
-
+	
 	public void desconectar(Connection con)
 	{
 		try
@@ -158,6 +155,4 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 		}
 		catch(Exception e) {}
 	}
-
-
 }

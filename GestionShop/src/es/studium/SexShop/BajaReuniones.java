@@ -27,7 +27,7 @@ public class BajaReuniones extends Frame implements WindowListener, ActionListen
 	Button btnSi;
 	Button btnNo;
 	
-	Dialog dlgBajaProveedores = new Dialog (this,"Mensaje",true);
+	Dialog dlgBajaReuniones = new Dialog (this,"Mensaje",true);
 	Label mensaje = new Label("");
 
 	Registros registros = new Registros();
@@ -99,7 +99,7 @@ public class BajaReuniones extends Frame implements WindowListener, ActionListen
 			
 			Label lblEtiqueta = new Label("¿Está seguro de eliminar?");
 			seguro.setLayout(new FlowLayout());
-			seguro.setSize(120,100);
+			seguro.setSize(180,100);
 			btnSi.addActionListener(this);
 			btnNo.addActionListener(this);
 			seguro.add(lblEtiqueta);
@@ -124,10 +124,26 @@ public class BajaReuniones extends Frame implements WindowListener, ActionListen
 			// Mostramos resultado
 			if(respuesta == 0)
 			{
+				mensaje.setText("Baja de la reunión correcta");
+				dlgBajaReuniones.setTitle("Baja Reuniones");
+				dlgBajaReuniones.setSize(190,120);
+				dlgBajaReuniones.setLayout(new FlowLayout());
+				dlgBajaReuniones.addWindowListener(this);
+				dlgBajaReuniones.add(mensaje);
+				dlgBajaReuniones.setLocationRelativeTo(null);
+				dlgBajaReuniones.setVisible(true);
 				System.out.println("Borrado de la reunión correcto");
 			}
 			else
 			{
+				mensaje.setText("Error en la baja de la reunión");
+				dlgBajaReuniones.setTitle("Baja Reuniones");
+				dlgBajaReuniones.setSize(190,120);
+				dlgBajaReuniones.setLayout(new FlowLayout());
+				dlgBajaReuniones.addWindowListener(this);
+				dlgBajaReuniones.add(mensaje);
+				dlgBajaReuniones.setLocationRelativeTo(null);
+				dlgBajaReuniones.setVisible(true);
 				System.out.println("Error en borrado de la reunión");
 			}
 			
@@ -237,5 +253,4 @@ public class BajaReuniones extends Frame implements WindowListener, ActionListen
 		}
 		catch(Exception e) {}
 	} 
-
 }

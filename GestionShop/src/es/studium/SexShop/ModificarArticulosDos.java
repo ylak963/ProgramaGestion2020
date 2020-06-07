@@ -35,7 +35,6 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 	Button btnLimpiar = new Button("Limpiar");
 	
 	Connection con = null;
-	
 	Statement statement = null;
 	ResultSet rs = null;
 		
@@ -129,7 +128,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 					"', tamanioArticulo = "+tamanioArticulo+
 					", descripcionArticulo = '"+descripcionArticulo+
 					"',precioArticulo = "+precioArticulo+
-					"',idProveedorFK = "+idProveedorFK+
+					",idProveedorFK = "+idProveedorFK+
 					" WHERE idArticulo = "+idArticuloModificar;
 			
 			registro.registrarMovimiento(usuario,sentencia);

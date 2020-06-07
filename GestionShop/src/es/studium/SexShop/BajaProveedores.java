@@ -79,8 +79,8 @@ public class BajaProveedores  extends Frame implements WindowListener, ActionLis
 		add(btnLimpiar);
 		
 		addWindowListener(this);
-		setSize(290,300);
-		setResizable(false);
+		setSize(350,240);
+		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
@@ -258,5 +258,4 @@ public class BajaProveedores  extends Frame implements WindowListener, ActionLis
 		}
 		catch(Exception e) {}
 	} 
-
 }

@@ -20,9 +20,9 @@ import java.sql.Statement;
 public class ModificarReunionesDos extends Frame implements WindowListener, ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	Label lblPuntosReunion = new Label("Proveedor:");
+	Label lblPuntosReunion = new Label("Puntos:");
 	TextField txtPuntosReunion = new TextField(20);
-	Label lblFechaReunion = new Label("Teléfono:");
+	Label lblFechaReunion = new Label("Fecha:");
 	TextField txtFechaReunion = new TextField(20);
 	
 	
@@ -39,15 +39,13 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 	Registros registros = new Registros();
 	Login logUsuario = new Login();
 
-
-
 	public ModificarReunionesDos(int idReunionModificar)
 	{
 		this.idReunionModificar = idReunionModificar; 
 		// Conectar BD
 		Connection con = conectar();
 		cadena= (consultarReunion(con, idReunionModificar)).split("-");
-		setTitle("Modificar Proveedor");
+		setTitle("Modificar Reunión");
 		setLayout(new FlowLayout());
 
 		add(lblPuntosReunion);
@@ -65,13 +63,12 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 		add(btnAceptar);
 		add(btnLimpiar);
 		addWindowListener(this);
-		setSize(240,300); 
+		setSize(240,230); 
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
 		if(btnLimpiar.equals(arg0.getSource()))
@@ -80,8 +77,6 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 			txtPuntosReunion.setText("");
 			txtFechaReunion.selectAll();
 			txtFechaReunion.setText("");
-		
-		
 		}
 		else if(btnAceptar.equals(arg0.getSource()))// btnAceptar
 		{
@@ -129,7 +124,6 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 
 	}
 
-	@Override
 	public void windowActivated(WindowEvent arg0){}
 	public void windowClosed(WindowEvent arg0){}
 	public void windowClosing(WindowEvent arg0)
@@ -147,8 +141,6 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 	public void windowDeactivated(WindowEvent arg0){}
 	public void windowDeiconified(WindowEvent arg0){}
 	public void windowIconified(WindowEvent arg0){}
-
-
 	public void windowOpened(WindowEvent arg0){}
 	public Connection conectar()
 	{
@@ -167,11 +159,13 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 			{
 				System.out.println("Conectado a la base de datos");
 			}
-		} catch (SQLException ex) 
+		} 
+		catch (SQLException ex) 
 		{
 			System.out.println("ERROR:La dirección no es válida o el usuario y clave");
 			ex.printStackTrace();
-		} catch (ClassNotFoundException cnfe) 
+		} 
+		catch (ClassNotFoundException cnfe) 
 		{
 			System.out.println("Error 1-" + cnfe.getMessage());
 		}
@@ -195,7 +189,7 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 
 			resultado = rs.getInt("idReunion") + "-" +
 					rs.getInt("puntosReunion") + "-" +
-					fechaAmericana[2]+"/"+fechaAmericana[1]+"/"+fechaAmericana[0]+"#";
+					fechaAmericana[2]+"/"+fechaAmericana[1]+"/"+fechaAmericana[0]/*+"#"*/;
 
 		}
 		catch (SQLException sqle)
@@ -238,7 +232,4 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 		}
 		catch(Exception e) {}
 	}
-
 }
-
-

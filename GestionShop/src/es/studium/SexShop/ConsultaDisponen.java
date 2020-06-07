@@ -91,10 +91,11 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 				Connection con = conectar();
 				String [] cadena= consultarDisponen(con).split("\n");
 				desconectar(con);
-				PdfPTable tabla = new PdfPTable(2); // Se indica el número de columnas
+				PdfPTable tabla = new PdfPTable(3); // Se indica el número de columnas
 				tabla.setSpacingBefore(5); // Espaciado ANTES de la tabla
-				tabla.addCell("Referencia Reunion");
-				tabla.addCell("Referencia Articulo");
+				tabla.addCell("Referencia Reunion nº");
+				tabla.addCell("a fecha de");
+				tabla.addCell("Articulo utilizado");
 				
 				//En cada posición de cadena tenemos un registro completo
 				//Cadena [0]="1-2"
@@ -106,7 +107,7 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 				for(int i=0; i<cadena.length; i++)
 				{
 					subCadena = cadena[i].split("-");
-					for(int j=0; j<2;j++)
+					for(int j=0; j<3;j++)
 					{
 						tabla.addCell(subCadena[j]);
 					}
@@ -179,10 +180,11 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 	{
 		String resultado = "";
 		String usuario = logUsuario.txtUsuario.getText();
+		String [] fechaReunionEuropea;
 
 		try
 		{
-			String sqlSelect = "SELECT * FROM disponen";
+			String sqlSelect = "SELECT idReunion,fechaReunion,nombreArticulo FROM disponen,articulos,reuniones where idReunion=idReunionFK and idArticulo=idArticuloFK order by idReunionFK";
 			//Crear una sentencia
 			Statement stm = con.createStatement();
 			//Crear un objeto ResultSet para guardar lo obtenido
@@ -190,9 +192,9 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 			ResultSet rs = stm.executeQuery(sqlSelect);
 			while (rs.next())
 			{
-
-				resultado = resultado +"Reunión nº:"+ rs.getInt("idReunionFK") +
-						" - "+"Id Artículo:"+rs.getString("idArticuloFK")+"\n";
+				fechaReunionEuropea = (rs.getString("fechaReunion")).split("-");
+				resultado = resultado /*+"Reunión nº:"*/+ rs.getInt("idReunion")+"-" +/*" a fecha de:" +*/fechaReunionEuropea[2]+"/"+fechaReunionEuropea[1]+"/"+fechaReunionEuropea[0]+
+						" - "+/*"Artículo utilizado: "+*/rs.getString("nombreArticulo")+"\n";
 				
 			}
 			registros.registrarMovimiento(usuario,sqlSelect);
@@ -212,6 +214,3 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 		catch(Exception e) {}
 	}
 }
-
-
-

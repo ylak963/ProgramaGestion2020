@@ -76,7 +76,6 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 		setVisible(true);
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent arg0)
 	{
 		if(btnLimpiar.equals(arg0.getSource()))
@@ -122,7 +121,7 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 			{
 				// Error
 				mensaje.setText("Error en la Modificación del proveedor");
-				dlgMensaje.setTitle("Modificar Cliente");
+				dlgMensaje.setTitle("Modificar Proveedor");
 				dlgMensaje.setSize(250,120);
 				dlgMensaje.setLayout(new FlowLayout());
 				dlgMensaje.addWindowListener(this);
@@ -135,8 +134,6 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 		}
 
 	}
-
-	@Override
 	public void windowActivated(WindowEvent arg0){}
 	public void windowClosed(WindowEvent arg0){}
 	public void windowClosing(WindowEvent arg0)
@@ -174,11 +171,13 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 			{
 				System.out.println("Conectado a la base de datos");
 			}
-		} catch (SQLException ex) 
+		} 
+		catch (SQLException ex) 
 		{
 			System.out.println("ERROR:La dirección no es válida o el usuario y clave");
 			ex.printStackTrace();
-		} catch (ClassNotFoundException cnfe) 
+		} 
+		catch (ClassNotFoundException cnfe) 
 		{
 			System.out.println("Error 1-" + cnfe.getMessage());
 		}
@@ -235,7 +234,6 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 		return (resultado);
 	}
 
-
 	public void desconectar(Connection con)
 	{
 		try
@@ -244,7 +242,4 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 		}
 		catch(Exception e) {}
 	}
-
 }
-
-

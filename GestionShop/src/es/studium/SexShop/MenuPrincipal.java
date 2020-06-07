@@ -43,12 +43,11 @@ public class MenuPrincipal extends Frame implements WindowListener, ActionListen
 	MenuItem mniModificarDisponen = new MenuItem("Modificación");
 	
 	MenuItem mniAyuda = new MenuItem("Ayuda");
+	Login login = new Login();
 	
-	
-	
-		
 	MenuPrincipal()
 	{
+		
 		setTitle("Gestión SexShop");
 		setLayout(new FlowLayout());
 		menuArticulos.add(mniAltaArticulos);
@@ -187,6 +186,10 @@ public class MenuPrincipal extends Frame implements WindowListener, ActionListen
 		{
 			new ModificarDisponen();
 		}
+		else if(objetoPulsado.equals(mniAyuda))
+		{
+			new Ayuda();
+		}
 		
 	}
 	//Procedicimiento para que el usuario solo pueda ver las altas
@@ -201,6 +204,9 @@ public class MenuPrincipal extends Frame implements WindowListener, ActionListen
 		mniBajaReuniones.setEnabled(false);
 		mniConsultaReuniones.setEnabled(false);
 		mniModificarReuniones.setEnabled(false);
+		mniBajaDisponen.setEnabled(false);
+		mniConsultaDisponen.setEnabled(false);
+		mniModificarDisponen.setEnabled(false);
 		
 	}
 	

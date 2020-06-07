@@ -36,8 +36,5 @@ public class Registros
 		{
 			System.out.println("Se produjo un error de archivo");
 		}
-		
 	}
-
-	
 }

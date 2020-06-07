@@ -215,5 +215,3 @@ public class ConsultaReuniones extends Frame implements WindowListener, ActionLi
 		catch(Exception e) {}
 	}
 }
-
-
