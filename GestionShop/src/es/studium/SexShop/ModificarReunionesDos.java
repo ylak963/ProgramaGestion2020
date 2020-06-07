@@ -24,13 +24,11 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 	TextField txtPuntosReunion = new TextField(20);
 	Label lblFechaReunion = new Label("Fecha:");
 	TextField txtFechaReunion = new TextField(20);
-	
-	
+		
 	Button btnAceptar = new Button("Aceptar");
 	Button btnLimpiar = new Button("Limpiar");
 
 	Connection con = null;
-
 	String [] cadena;
 	Dialog dlgMensaje = new Dialog(this,"Mensaje", true);
 	Label mensaje = new Label("");
@@ -82,8 +80,7 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 		{
 			String puntosReunion=txtPuntosReunion.getText();
 			String[] fechaAmericana = txtFechaReunion.getText().split("/");
-			
-			
+				
 			String usuario = logUsuario.txtUsuario.getText();
 			Connection con = conectar();
 			cadena= (consultarReunion(con, idReunionModificar)).split("-");
@@ -91,6 +88,7 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 			String sentencia = "UPDATE reuniones SET puntosReunion ="+puntosReunion+
 					", fechaReunion='"+fechaAmericana[2]+"-"+fechaAmericana[1]+"-"+fechaAmericana[0]+
 					"' WHERE idReunion = "+idReunionModificar;
+			
 			registros.registrarMovimiento(usuario,sentencia);
 
 			// Mostrar cuadro de diálog
@@ -176,6 +174,7 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 	{
 		String resultado = "";
 		String [] fechaAmericana;
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM reuniones where idReunion="+idReunion;
@@ -190,7 +189,7 @@ public class ModificarReunionesDos extends Frame implements WindowListener, Acti
 			resultado = rs.getInt("idReunion") + "-" +
 					rs.getInt("puntosReunion") + "-" +
 					fechaAmericana[2]+"/"+fechaAmericana[1]+"/"+fechaAmericana[0]/*+"#"*/;
-
+			registros.registrarMovimiento(usuario,sentencia);
 		}
 		catch (SQLException sqle)
 		{

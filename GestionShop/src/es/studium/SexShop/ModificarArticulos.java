@@ -25,6 +25,8 @@ public class ModificarArticulos extends Frame implements WindowListener, ActionL
 	Connection con = null;
 	String [] cadena ;
 	int idArticuloModificar = 0;
+	Registros registros = new Registros();
+	Login logUsuario = new Login();
 
 	ModificarArticulos()
 	{
@@ -127,6 +129,7 @@ public class ModificarArticulos extends Frame implements WindowListener, ActionL
 	public String consultarArticulosChoice(Connection c)
 	{
 		String resultado = "";
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM articulos";
@@ -145,6 +148,7 @@ public class ModificarArticulos extends Frame implements WindowListener, ActionL
 								","+rs.getString("precioArticulo")+
 								","+rs.getString("idProveedorFK"));*/
 			}
+			registros.registrarMovimiento(usuario,sentencia);
 		}
 		catch (SQLException sqle)
 		{

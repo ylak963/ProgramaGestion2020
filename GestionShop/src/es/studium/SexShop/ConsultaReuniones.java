@@ -36,7 +36,7 @@ public class ConsultaReuniones extends Frame implements WindowListener, ActionLi
 	Registros registros = new Registros();
 	Login logUsuario = new Login();
 	
-	ConsultaReuniones()
+	public ConsultaReuniones()
 	{
 		setTitle("Consulta de reuniones");
 		setLayout(new FlowLayout());

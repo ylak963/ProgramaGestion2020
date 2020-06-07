@@ -182,7 +182,6 @@ public class AltaProveedores extends Frame implements WindowListener, ActionList
 		}
 		return respuesta;
 	}
-	
 	public void desconectar(Connection con)
 	{
 		try

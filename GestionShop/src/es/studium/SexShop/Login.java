@@ -23,26 +23,19 @@ public class Login extends WindowAdapter implements ActionListener
 	//Declaración de los componentes y ventanas
 	
 	Frame login = new Frame("Login GestionShop");
-	//Frame MenuPrincipal = new Frame("Menú Principal");
-
 	Dialog errorLogin = new Dialog(login, "ERROR", true);
 	
 	Label lblUsuario = new Label("Usuario       ");
 	Label lblPass = new Label("Contraseña");
 	
 	TextField txtUsuario = new TextField("admin", 20);
-	public TextField getTxtUsuario()
-	{
-		return txtUsuario;
-	}
-
 	TextField txtPass = new TextField("admin", 20);
 	
 	Button btnAcceder = new Button("Acceder");
 	Button btnLimpiar = new Button("Cancelar");
 	Button btnVolver = new Button("Volver");
 	
-		// Conexión a la base de datos
+	// Conexión a la base de datos
 	String driver = "com.mysql.jdbc.Driver";
 	String url = "jdbc:mysql://localhost:3306/gestionshop?useSSL=false&allowPublicKeyRetrieval=true";
 	String usuario = "root";
@@ -51,11 +44,9 @@ public class Login extends WindowAdapter implements ActionListener
 	Connection connection = null;
 	Statement statement = null;
 	ResultSet rs = null;
-
 	
 	public Login()
-	{
-		
+	{		
 		//Constructor del Layout Login
 		login.setLayout(new FlowLayout());
 		login.setSize(290, 125);

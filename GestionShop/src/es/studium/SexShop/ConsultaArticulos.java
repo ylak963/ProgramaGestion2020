@@ -216,6 +216,7 @@ public class ConsultaArticulos extends Frame implements WindowListener, ActionLi
 		}
 		return (resultado);
 	}
+	
 	public void desconectar(Connection con)
 	{
 		try

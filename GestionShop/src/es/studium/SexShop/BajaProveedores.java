@@ -183,15 +183,6 @@ public class BajaProveedores  extends Frame implements WindowListener, ActionLis
 	public void windowClosing(WindowEvent e)
 	{
 		setVisible(false);
-		/*
-		if(this.isActive())
-		{
-			setVisible(false);
-		}
-		else
-		{
-			seguro.setVisible(false);
-		}*/
 	}
 
 	public void windowDeactivated(WindowEvent e){}

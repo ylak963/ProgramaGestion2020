@@ -45,7 +45,7 @@ public class MenuPrincipal extends Frame implements WindowListener, ActionListen
 	MenuItem mniAyuda = new MenuItem("Ayuda");
 	Login login = new Login();
 	
-	MenuPrincipal()
+	public MenuPrincipal()
 	{
 		
 		setTitle("Gestión SexShop");

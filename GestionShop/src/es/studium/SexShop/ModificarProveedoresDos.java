@@ -187,6 +187,7 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 	public String consultarProveedor(Connection c, int idProveedor)
 	{
 		String resultado = "";
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM proveedores where idProveedor="+idProveedor;
@@ -201,6 +202,7 @@ public class ModificarProveedoresDos extends Frame implements WindowListener, Ac
 					rs.getString("nombreProveedor") + "-" +
 					rs.getInt("telefonoproveedor") + "-" +
 					rs.getString("generoProveedor");
+			registros.registrarMovimiento(usuario,sentencia);
 
 		}
 		catch (SQLException sqle)

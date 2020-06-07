@@ -245,6 +245,7 @@ public class BajaReuniones extends Frame implements WindowListener, ActionListen
 		}
 		return respuesta;
 	}
+	
 	public void desconectar(Connection con)
 	{
 		try

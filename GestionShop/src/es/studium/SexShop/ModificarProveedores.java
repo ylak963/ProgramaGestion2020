@@ -25,6 +25,8 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 	Connection con = null;
 	String [] cadena ;
 	int idProveedorModificar = 0;
+	Registros registros = new Registros();
+	Login logUsuario = new Login();
 
 	public ModificarProveedores()
 	{
@@ -126,6 +128,7 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 	public String consultarProveedorChoice(Connection c)
 	{
 		String resultado = "";
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM proveedores";
@@ -139,6 +142,7 @@ public class ModificarProveedores extends Frame implements WindowListener, Actio
 			choProveedor.add(rs.getInt("idProveedor")+
 						"-"+rs.getString("nombreProveedor"));
 			}
+			registros.registrarMovimiento(usuario,sentencia);
 		}
 		catch (SQLException sqle)
 		{

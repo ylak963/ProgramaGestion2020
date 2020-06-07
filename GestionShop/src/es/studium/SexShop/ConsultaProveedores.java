@@ -207,6 +207,7 @@ public class ConsultaProveedores extends Frame implements WindowListener, Action
 		}
 		return (resultado);
 	}
+	
 	public void desconectar(Connection con)
 	{
 		try

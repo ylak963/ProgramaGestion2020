@@ -25,8 +25,10 @@ public class ModificarReuniones extends Frame implements WindowListener, ActionL
 	Connection con = null;
 	String [] cadena ;
 	int idReunionModificar = 0;
+	Registros registros = new Registros();
+	Login logUsuario = new Login();
 
-	ModificarReuniones()
+	public ModificarReuniones()
 	{
 		setTitle("Modificar Reuniones");
 		setLayout(new FlowLayout());
@@ -128,6 +130,7 @@ public class ModificarReuniones extends Frame implements WindowListener, ActionL
 	{
 		String resultado = "";
 		String[] fechaAmericana;
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM reuniones";
@@ -144,6 +147,7 @@ public class ModificarReuniones extends Frame implements WindowListener, ActionL
 				resultado = resultado + rs.getInt("idReunion") +"-"+ 
 						fechaAmericana[2]+"/"+fechaAmericana[1]+"/"+fechaAmericana[0]+"#";
 			}
+			registros.registrarMovimiento(usuario,sentencia);
 				
 			
 		}

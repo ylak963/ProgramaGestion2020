@@ -70,7 +70,6 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 		add(lblPrecioArticulo);
 		add(txtPrecioArticulo);
 		
-		
 		//Rellenar el Choice
 		add(lblProveedor);
 		choidProvFK.add("Seleccionar un proveedor");
@@ -97,8 +96,6 @@ public class AltaArticulos extends Frame implements WindowListener, ActionListen
 		setResizable(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
-		
 	}
 
 	//Eventos 

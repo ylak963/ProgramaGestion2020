@@ -73,7 +73,6 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 		setVisible(true);
 	}
 	
-
 	public void actionPerformed(ActionEvent e)
 	{
 		Object objetoPulsado = e.getSource();
@@ -164,6 +163,7 @@ public class AltaDisponen extends Frame implements WindowListener, ActionListene
 		}
 		return con;
 	}
+	
 	
 	public int insertarDisponen(Connection con, String disponen, String idReunionFK, String idArticuloFK) 
 	{

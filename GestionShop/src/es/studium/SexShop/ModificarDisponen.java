@@ -206,6 +206,7 @@ public class ModificarDisponen extends Frame implements WindowListener, ActionLi
 	public String consultarReunionesChoice(Connection c, String idReunionModificar)
 	{
 		String resultado = "";
+		String usuario = logUsuario.txtUsuario.getText();
 		//String [] fechaEuropea;
 		try
 		{
@@ -221,6 +222,7 @@ public class ModificarDisponen extends Frame implements WindowListener, ActionLi
 				resultado = resultado + rs.getInt("idReunion") /*+ "-" +
 						fechaEuropea[2]+"/"+fechaEuropea[1]+"/"+fechaEuropea[0]+*/+"#";
 			}
+			registros.registrarMovimiento(usuario,sentencia);
 		}
 		catch (SQLException sqle)
 		{

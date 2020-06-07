@@ -195,8 +195,8 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 				fechaReunionEuropea = (rs.getString("fechaReunion")).split("-");
 				resultado = resultado /*+"Reunión nº:"*/+ rs.getInt("idReunion")+"-" +/*" a fecha de:" +*/fechaReunionEuropea[2]+"/"+fechaReunionEuropea[1]+"/"+fechaReunionEuropea[0]+
 						" - "+/*"Artículo utilizado: "+*/rs.getString("nombreArticulo")+"\n";
-				
 			}
+			
 			registros.registrarMovimiento(usuario,sqlSelect);
 		}
 		catch (SQLException sqle)
@@ -205,6 +205,7 @@ public class ConsultaDisponen extends Frame implements WindowListener, ActionLis
 		}
 		return (resultado);
 	}
+	
 	public void desconectar(Connection con)
 	{
 		try

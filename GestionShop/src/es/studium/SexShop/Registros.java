@@ -32,6 +32,7 @@ public class Registros
 			bw.close();
 			fw.close();			
 		}
+		
 		catch(IOException i)
 		{
 			System.out.println("Se produjo un error de archivo");

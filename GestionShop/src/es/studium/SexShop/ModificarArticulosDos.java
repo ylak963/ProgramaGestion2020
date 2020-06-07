@@ -43,7 +43,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 	Label mensaje = new Label("");
 	
 	int idArticuloModificar;
-	Registros registro = new Registros();
+	Registros registros = new Registros();
 	Login logUsuario = new Login();
 	
 	
@@ -131,7 +131,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 					",idProveedorFK = "+idProveedorFK+
 					" WHERE idArticulo = "+idArticuloModificar;
 			
-			registro.registrarMovimiento(usuario,sentencia);
+			registros.registrarMovimiento(usuario,sentencia);
 			
 			// Mostrar cuadro de diálog
 			if((modificarArticulo(con, sentencia))==0)
@@ -216,6 +216,7 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 	public String consultarArticulo(Connection c, int idArticulo)
 	{
 		String resultado = "";
+		String usuario = logUsuario.txtUsuario.getText();
 		try
 		{
 			String sentencia = "SELECT * FROM articulos where idArticulo="+idArticulo;
@@ -232,8 +233,11 @@ public class ModificarArticulosDos extends Frame implements WindowListener, Acti
 						rs.getString("descripcionArticulo")+ "-"+
 						rs.getDouble("precioArticulo")+"-"+
 						rs.getInt("idProveedorFK");
+				
+				registros.registrarMovimiento(usuario,sentencia);
 			
 		}
+		
 		catch (SQLException sqle)
 		{
 			System.out.println("Error 2-"+sqle.getMessage());
